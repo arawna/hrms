@@ -1,0 +1,106 @@
+-- Table: public.boss_users
+
+-- DROP TABLE public.boss_users;
+
+CREATE TABLE public.boss_users
+(
+    id integer NOT NULL DEFAULT nextval('boss_users_id_seq'::regclass),
+    user_id integer NOT NULL,
+    company_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT boss_users_pkey PRIMARY KEY (id),
+    CONSTRAINT phone_number_unik UNIQUE (phone_number),
+    CONSTRAINT boss_users_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.boss_users
+    OWNER to postgres;
+    
+-- Table: public.job_seeker_users
+
+-- DROP TABLE public.job_seeker_users;
+
+CREATE TABLE public.job_seeker_users
+(
+    id integer NOT NULL DEFAULT nextval('job_seeker_users_id_seq'::regclass),
+    user_id integer NOT NULL,
+    first_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    nationality_id character varying(11) COLLATE pg_catalog."default" NOT NULL,
+    birth_year integer NOT NULL,
+    CONSTRAINT job_seeker_users_pkey PRIMARY KEY (id),
+    CONSTRAINT nationality_unik UNIQUE (nationality_id),
+    CONSTRAINT job_seeker_users_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.job_seeker_users
+    OWNER to postgres;
+    
+-- Table: public.positions
+
+-- DROP TABLE public.positions;
+
+CREATE TABLE public.positions
+(
+    id integer NOT NULL DEFAULT nextval('positions_id_seq'::regclass),
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT positions_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.positions
+    OWNER to postgres;
+    
+-- Table: public.system_users
+
+-- DROP TABLE public.system_users;
+
+CREATE TABLE public.system_users
+(
+    id integer NOT NULL DEFAULT nextval('system_users_id_seq'::regclass),
+    user_id integer NOT NULL,
+    first_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT system_users_pkey PRIMARY KEY (id),
+    CONSTRAINT system_users_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.system_users
+    OWNER to postgres;
+    
+-- Table: public.users
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users
+(
+    id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (id),
+    CONSTRAINT email_unik UNIQUE (email)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.users
+    OWNER to postgres;
